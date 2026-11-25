@@ -1,11 +1,16 @@
 interface RatingProps {
   rating: number;
   className?: string;
+  showValue?: boolean;
 }
 
 const STARS = "★★★★★";
 
-export function Rating({ rating, className = "" }: RatingProps) {
+export function Rating({
+  rating,
+  className = "",
+  showValue = true,
+}: RatingProps) {
   const percent = Math.max(0, Math.min(100, (rating / 5) * 100));
 
   return (
@@ -23,9 +28,11 @@ export function Rating({ rating, className = "" }: RatingProps) {
           {STARS}
         </span>
       </span>
-      <span className="text-xs text-muted-foreground" aria-hidden="true">
-        ({rating.toFixed(1)})
-      </span>
+      {showValue && (
+        <span className="text-xs text-muted-foreground" aria-hidden="true">
+          ({rating.toFixed(1)})
+        </span>
+      )}
     </span>
   );
 }

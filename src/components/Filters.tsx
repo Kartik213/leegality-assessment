@@ -1,4 +1,4 @@
-import { useId, useState, type FormEvent, type ReactNode } from "react";
+import { useId, useState, type ReactNode } from "react";
 import type { FetchState } from "../hooks/useFetch.ts";
 import type { ProductFilters } from "../hooks/useFilters.ts";
 import type { Category } from "../types/product.ts";
