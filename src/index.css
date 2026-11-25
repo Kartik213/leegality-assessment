@@ -1,87 +1,75 @@
 @import "tailwindcss";
 
-:root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.148 0.004 228.8);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.148 0.004 228.8);
-  --primary: oklch(0.218 0.008 223.9);
-  --primary-foreground: oklch(0.987 0.002 197.1);
-  --secondary: oklch(0.963 0.002 197.1);
-  --secondary-foreground: oklch(0.218 0.008 223.9);
-  --muted: oklch(0.963 0.002 197.1);
-  --muted-foreground: oklch(0.56 0.021 213.5);
-  --accent: oklch(0.963 0.002 197.1);
-  --accent-foreground: oklch(0.218 0.008 223.9);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.925 0.005 214.3);
-  --input: oklch(0.925 0.005 214.3);
-  --ring: oklch(0.723 0.014 214.4);
-  --sidebar: oklch(0.987 0.002 197.1);
-  --sidebar-foreground: oklch(0.148 0.004 228.8);
-
-  --tile: oklch(1 0 0);
-  --star: oklch(0.795 0.184 86.047);
-  --success: oklch(0.527 0.154 150.069);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: oklch(0.148 0.004 228.8);
-    --foreground: oklch(0.987 0.002 197.1);
-    --card: oklch(0.218 0.008 223.9);
-    --card-foreground: oklch(0.987 0.002 197.1);
-    --primary: oklch(0.925 0.005 214.3);
-    --primary-foreground: oklch(0.218 0.008 223.9);
-    --secondary: oklch(0.275 0.011 216.9);
-    --secondary-foreground: oklch(0.987 0.002 197.1);
-    --muted: oklch(0.275 0.011 216.9);
-    --muted-foreground: oklch(0.723 0.014 214.4);
-    --accent: oklch(0.275 0.011 216.9);
-    --accent-foreground: oklch(0.987 0.002 197.1);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.56 0.021 213.5);
-    --sidebar: oklch(0.218 0.008 223.9);
-    --sidebar-foreground: oklch(0.987 0.002 197.1);
-
-    --tile: oklch(0.925 0.005 214.3);
-    --success: oklch(0.792 0.209 151.711);
-  }
-}
-
-@theme inline {
+@theme {
   --font-sans:
     ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
 
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-tile: var(--tile);
-  --color-star: var(--star);
-  --color-success: var(--success);
+  /* Surfaces */
+  --color-background: #f6f7f9;
+  --color-card: #ffffff;
+  --color-sidebar: #eef1f5;
+  --color-muted: #eef1f5;
+  --color-nav: #33425b;
+
+  /* Text */
+  --color-foreground: #1c2638;
+  --color-muted-foreground: #5a667a;
+  --color-nav-foreground: #ffffff;
+
+  /* Actions */
+  --color-primary: #1f6fd8;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #e6f0fd;
+  --color-secondary-foreground: #1858ae;
+  --color-accent: #e6f0fd;
+  --color-accent-foreground: #1858ae;
+  --color-destructive: #b42318;
+
+  /* Lines */
+  --color-border: #e2e6ec;
+  --color-input: #8591a2;
+  --color-ring: #b8c1ce;
+
+  --color-star: #f5b301;
+}
+
+@utility scrollbar-slim {
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background-color: var(--color-border);
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: var(--color-ring);
+  }
+
+  @supports not selector(::-webkit-scrollbar) {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+
+    &:hover {
+      scrollbar-color: var(--color-ring) transparent;
+    }
+  }
 }
 
 @layer base {
   :root {
-    color-scheme: light dark;
+    color-scheme: light;
   }
 
   html {

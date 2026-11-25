@@ -1,23 +1,32 @@
+import { useOutletContext } from "react-router-dom";
+import type { LayoutContext } from "../components/Layout.tsx";
 import { Products } from "../components/Products";
-import { useEffect, useState } from "react";
+import { useFetchMany, useFetch } from "../hooks/useFetch";
+import { productsUrl, categoriesUrl } from "../lib/products";
+import type { Category, ProductListResponse } from "../types/product.ts";
+import { useFilters } from "../hooks/useFilters";
+import { FilterSidebar } from "../components/FiltersSidebar.tsx";
 
 export function ProductListPage() {
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const response = await fetch("https://dummyjson.com/products");
-      const products = await response.json();
-      console.log(products);
-      setProducts(products.products);
-    };
-
-    fetchProducts();
-  }, []);
+  const { filters } = useFilters();
+  const { areFiltersOpen } = useOutletContext<LayoutContext>();
+  const productUrls =
+    filters.categories.length > 0
+      ? filters.categories.map((category) => productsUrl(category))
+      : [productsUrl()];
+  const products = useFetchMany<ProductListResponse>(productUrls);
+  const categories = useFetch<Category[]>(categoriesUrl());
 
   return (
-    <div className="rounded-xl bg-surface px-6 py-20 text-center shadow-xs space-y-10">
-      <h1 className="mt-3 text-2xl font-bold">Product List Page</h1>
-      <Products products={products} />
+    <div
+      className={`grid flex-1 transition-[grid-template-columns] duration-300 ease-out ${
+        areFiltersOpen
+          ? "lg:grid-cols-[17rem_minmax(0,1fr)]"
+          : "lg:grid-cols-[0rem_minmax(0,1fr)]"
+      }`}
+    >
+      <FilterSidebar products={products} categories={categories} />
+      <Products products={products} categories={categories} />
     </div>
   );
 }

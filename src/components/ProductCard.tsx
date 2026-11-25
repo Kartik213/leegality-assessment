@@ -22,7 +22,7 @@ export function ProductCard({ product }: ProductCardProps) {
       state={{ fromListing: true }}
       className="group flex flex-col rounded-xl bg-card p-4 shadow-xs ring-1 ring-border transition motion-safe:duration-200 hover:shadow-md hover:ring-ring"
     >
-      <div className="aspect-square overflow-hidden p-2">
+      <div className="aspect-square overflow-hidden rounded-lg p-2">
         <img
           src={product.thumbnail}
           alt=""
