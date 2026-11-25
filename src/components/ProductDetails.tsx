@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { Rating } from "../components/Rating.tsx";
-import { formatPrice } from "./ProductCard.tsx";
+import { formatPrice } from "../lib/format.ts";
 import type { Product } from "../types/product.ts";
 import { Reviews } from "./Reviews.tsx";
 import { Gallery } from "./Gallery.tsx"; 

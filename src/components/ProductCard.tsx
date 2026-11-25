@@ -1,18 +1,10 @@
 import { Link } from "react-router-dom";
 import type { ProductSummary } from "../types/product.ts";
+import { formatPrice } from "../lib/format.ts";
 import { Rating } from "./Rating.tsx";
 
 interface ProductCardProps {
   product: ProductSummary;
-}
-
-const priceFormatter = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-});
-
-export function formatPrice(price: number): string {
-  return priceFormatter.format(price);
 }
 
 export function ProductCard({ product }: ProductCardProps) {

@@ -1,11 +1,6 @@
 import { Rating } from "./Rating";
+import { formatDate } from "../lib/format.ts";
 import type { Review } from "../types/product.ts";
-
-const dateFormatter = new Intl.DateTimeFormat("en-US", { dateStyle: "medium" });
-
-function formatDate(isoDate: string): string {
-  return dateFormatter.format(new Date(isoDate));
-}
 
 export function Reviews({ rating, reviews }: { rating: number; reviews: Review[] }) {
   return (
