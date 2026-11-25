@@ -14,8 +14,10 @@ export function ProductListPage() {
     filters.categories.length > 0
       ? filters.categories.map((category) => productsUrl(category))
       : [productsUrl()];
-  const products = useFetchMany<ProductListResponse>(productUrls);
+  const products = useFetchMany<ProductListResponse>(productUrls, true);
   const categories = useFetch<Category[]>(categoriesUrl());
+  const categoryProducts =
+      products.data?.flatMap((response) => response.products) ?? [];
 
   return (
     <div
@@ -25,8 +27,8 @@ export function ProductListPage() {
           : "lg:grid-cols-[0rem_minmax(0,1fr)]"
       }`}
     >
-      <FilterSidebar products={products} categories={categories} />
-      <Products products={products} categories={categories} />
+      <FilterSidebar products={products} categoryProducts={categoryProducts} categories={categories} />
+      <Products products={products} categoryProducts={categoryProducts} categories={categories} />
     </div>
   );
 }

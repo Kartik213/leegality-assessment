@@ -1,6 +1,8 @@
 import { useState, useId, type FormEvent } from "react";
 import { parsePrice } from "../lib/filterProducts.ts";
-import { INPUT_CLASSES } from "./Filters.tsx";
+
+export const INPUT_CLASSES =
+  "h-10 w-full rounded-md border border-input bg-card px-2.5 text-sm text-foreground placeholder:text-muted-foreground aria-invalid:border-destructive";
 
 export function PriceForm({
   minPrice,

@@ -1,4 +1,4 @@
-import type { Category, ProductListResponse } from "../types/product.ts";
+import type { Category, ProductListResponse, ProductSummary } from "../types/product.ts";
 import { ProductCard } from "./ProductCard.tsx";
 import { ProductsSkeleton } from "../components/ProductsSkeleton.tsx";
 import { Pagination } from "../components/Paginations";
@@ -11,17 +11,16 @@ import { filterProducts } from "../lib/filterProducts.ts";
 
 interface ProductsProps {
   products: FetchState<ProductListResponse[]>;
+  categoryProducts: ProductSummary[];
   categories: FetchState<Category[]>;
 }
 
 const PAGE_SIZE = 8;
 
-export function Products({ products, categories }: ProductsProps) {
+export function Products({ products, categoryProducts, categories }: ProductsProps) {
   const { filters, updateFilters, clearFilters, activeFilterCount } =
     useFilters();
 
-  const categoryProducts =
-    products.data?.flatMap((response) => response.products) ?? [];
   const matchingProducts = filterProducts(categoryProducts, filters);
 
   const totalPages = Math.max(
@@ -94,7 +93,10 @@ export function Products({ products, categories }: ProductsProps) {
           )}
         </div>
       ) : (
-        <>
+        <div
+          aria-busy={products.isFetching}
+          className={`transition-opacity duration-200 ${products.isFetching ? "opacity-50" : ""}`}
+        >
           <ul className="grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3 xl:grid-cols-4">
             {visibleProducts.map((product) => (
               <li key={product.id} className="grid">
@@ -109,7 +111,7 @@ export function Products({ products, categories }: ProductsProps) {
               onPageChange={handlePageChange}
             />
           </div>
-        </>
+        </div>
       )}
     </section>
   );

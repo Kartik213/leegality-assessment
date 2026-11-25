@@ -1,22 +1,21 @@
 import { useOutletContext } from "react-router-dom";
 import type { LayoutContext } from "../components/Layout.tsx";
 import { type FetchState } from "../hooks/useFetch";
-import type { Category, ProductListResponse } from "../types/product.ts";
+import type { Category, ProductListResponse, ProductSummary } from "../types/product.ts";
 import { useFilters } from "../hooks/useFilters";
 import { Filters } from "../components/Filters";
 import { getUniqueBrands } from "../lib/filterProducts.ts";
 
 interface FilterSidebarProps {
   products: FetchState<ProductListResponse[]>;
+  categoryProducts: ProductSummary[];
   categories: FetchState<Category[]>;
 }
 
-export function FilterSidebar({ products, categories }: FilterSidebarProps) {
+export function FilterSidebar({ products, categoryProducts, categories }: FilterSidebarProps) {
 const { filters, updateFilters, clearFilters, activeFilterCount } =
     useFilters();
   const { areFiltersOpen } = useOutletContext<LayoutContext>();
-  const categoryProducts =
-    products.data?.flatMap((response) => response.products) ?? [];
   const brands = getUniqueBrands(categoryProducts);
 
   return (

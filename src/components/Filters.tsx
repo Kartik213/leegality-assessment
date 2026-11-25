@@ -3,7 +3,7 @@ import type { FetchState } from "../hooks/useFetch.ts";
 import type { ProductFilters } from "../hooks/useFilters.ts";
 import type { Category } from "../types/product.ts";
 import { SearchIcon } from "../components/Icon.tsx";
-import { PriceForm } from "./PriceForm.tsx";
+import { PriceForm, INPUT_CLASSES } from "./PriceForm.tsx";
 
 interface FiltersProps {
   filters: ProductFilters;
@@ -17,8 +17,6 @@ interface FiltersProps {
 
 const OPTION_CLASSES =
   "flex min-h-9 cursor-pointer items-center gap-3 rounded-md px-1 text-sm transition hover:text-accent-foreground has-checked:font-semibold";
-export const INPUT_CLASSES =
-  "h-10 w-full rounded-md border border-input bg-card px-2.5 text-sm text-foreground placeholder:text-muted-foreground aria-invalid:border-destructive";
 
 function FilterGroup({ title, children }: { title: string; children: ReactNode }) {
   const headingId = useId();

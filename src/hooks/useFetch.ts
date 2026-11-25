@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { fetchData } from "../lib/products";
 
+const cache = new Map<string, unknown>();
+
 interface Settled<T> {
   key: string;
   data?: T[];
@@ -11,20 +13,29 @@ export interface FetchState<T> {
   data: T | undefined;
   error: Error | undefined;
   isLoading: boolean;
+  isFetching: boolean;
   retry: () => void;
 }
 
-export function useFetchMany<T>(urls: string[]): FetchState<T[]> {
-  const key = urls.join('/n');
+export function useFetchMany<T>(
+  urls: string[],
+  keepPrevious = false,
+): FetchState<T[]> {
+  const key = urls.join('\n');
   const [result, setResult] = useState<Settled<T> | null>(null);
   const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
+    const list = key.split("\n");
+    if (list.every((url) => cache.has(url))) return;
+
     const controller = new AbortController();
 
     Promise.all(
-      urls.map(async (url) => {
+      list.map(async (url) => {
+        if (cache.has(url)) return cache.get(url) as T;
         const data = await fetchData<T>(url, controller.signal);
+        cache.set(url, data);
         return data;
       }),
     )
@@ -40,13 +51,19 @@ export function useFetchMany<T>(urls: string[]): FetchState<T[]> {
   }, [key, attempt]);
 
   const current = result?.key === key ? result : null;
-  const data = current?.data;
+  const cached = urls.every((url) => cache.has(url))
+    ? urls.map((url) => cache.get(url) as T)
+    : undefined;
+  const isFetching = cached === undefined && current === null;
+  const previous = keepPrevious && isFetching ? result?.data : undefined;
+  const data = cached ?? current?.data ?? previous;
   const error = data === undefined ? current?.error : undefined;
 
   return {
     data,
     error,
     isLoading: data === undefined && error === undefined,
+    isFetching,
     retry: () => {
       setResult(null);
       setAttempt((value) => value + 1);
